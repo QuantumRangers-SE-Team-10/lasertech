@@ -6,6 +6,7 @@ import gameStyles from "../css/game.module.css";
 import PlayerDisplay from "../components/playerDisplay.jsx";
 // import PlayerAction from "../src/components/playerAction.jsx";
 import Countdown from "../components/countdown.jsx";
+import GameMusic from "../components/gameMusic.jsx";
 
 import { getGame } from "../../api/game";
 
@@ -35,6 +36,7 @@ const Game = () => {
             </div>
             {!!game.error || <PlayerDisplay game={game} />}
             {/* <PlayerAction /> */}
+            <GameMusic />
             <Countdown startTime={30} gameTime={360} />
         </div>
 
