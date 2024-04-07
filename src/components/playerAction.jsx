@@ -1,5 +1,18 @@
 import playerActionStyles from "../css/playerAction.module.css"
 
+const PlayerActions = ({ sender, senderColor, recipient, recipientColor}) => {
+    return (
+        <div className={playerActionStyles.playerAction}>
+            <span style={{ color: senderColor }}>{sender}</span> hit&nbsp;
+            {recipient === 'the base' ? (
+                <span style={{ color: recipientColor }}>{recipient}</span>
+            ) : (
+                <span style={{ color: recipientColor }}>{recipient}</span>
+            )}
+        </div>
+    );
+};
+
 const PlayerAction = () => {
 
     const [game, setGame] = useState({});
@@ -45,14 +58,13 @@ const PlayerAction = () => {
         return (
             <div className={playerActionStyles.actionScreen}>
                 {players.map(player => (
-                    <div key={player.id} className={playerActionStyles.playerAction}>
-                        <div className={playerActionStyles.playerName}>
-                            <h2>{player.name}</h2>
-                        </div>
-                        <div className={playerActionStyles.playerAction}>
-                            <h2>{player.action}</h2>
-                        </div>
-                    </div>
+                    <PlayerActions
+                        key={player.codename}
+                        sender={player.codename}
+                        senderColor={game.players.find(p => p.codename === player.codename).color}
+                        recipient={player.action.recipient}
+                        recipientColor={game.players.find(p => p.codename === player.action.recipient).color}
+                    />
                 ))}
             </div>
         );
