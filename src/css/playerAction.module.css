@@ -1,19 +1,19 @@
 .actionScreen {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   grid-gap: 10px;
   margin: 10px;
+  background-color: blue;
 }
 
 .playerAction {
-  display: block; 
-  grid-column: span 2;
-  grid-row: auto;
+  grid-column: span 12; 
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 3;
 }
 
 .playerName {
-  display: block; /* Filler code */
-  grid-column: span 2;
-  grid-row:auto;
+  grid-column: span 12; 
 }
-
