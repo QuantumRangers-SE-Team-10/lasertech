@@ -6,18 +6,21 @@ import Track05 from "../assets/music/Track05.mp3"
 import Track06 from "../assets/music/Track06.mp3"
 import Track07 from "../assets/music/Track07.mp3"
 import Track08 from "../assets/music/Track08.mp3"
+import {useEffect} from "react";
 
 const GameMusic = () => {
     let musicArray = new Array(Track01, Track02, Track03, Track04, Track05, Track06, Track07, Track08);
 
     let musicFile = musicArray[Math.floor(Math.random()*8)];
 
-    let audio = document.getElementById("music");
+    useEffect(() => {
+      let audio = document.getElementById("music");
 
-    setTimeout(() => {
-      console.log(audio);
-      audio.play();
-    }, 13000);
+      setTimeout(() => {
+        console.log(audio);
+        audio.play();
+      }, 13000);
+    }, []);
 
     return(
         <audio id="music" src={musicFile}></audio>
