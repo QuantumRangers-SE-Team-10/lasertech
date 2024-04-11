@@ -17,9 +17,9 @@ const socket = io('http://localhost:3000');
 const Game = () => {
   const [game, setGame] = useState({});
   const [searchParams] = useSearchParams();
-  useEffect(() => {
+  useMemo(async () => {
     const gameId = searchParams.get('id') || '';
-    const g = getGame(gameId);
+    const g = await getGame(gameId);
     setGame(g);
   }, [searchParams]);
 
