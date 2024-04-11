@@ -25,17 +25,33 @@ server.on('listening', () => {
 server.on('message', (message, remote) => {
   console.log(`Received message from ${remote.address}:${remote.port}: ${message}`);
 
+  if (message.indexOf(':') !== -1) {
+    const parts = message.toString().split(':');
+    console.log(parts)
+    io.emit('hit', { sender: parts[0], recipient: parts[1]} );
+    sendUDPMessage(parts[0]);
+  }
+
   // Broadcast the message to all connected clients
   io.emit('udp-message', message.toString());
 });
 
 server.bind(LISTEN_PORT, HOST);
 
-io.on('connection', (socket) => {
-  console.log('A client connected');
+function sendUDPMessage(message) {
+  const buffer = Buffer.from(message);
+  server.send(buffer, 0, buffer.length, BROADCAST_PORT, ADDRESS, (err) => {
+    if (err) {
+      console.error('Failed to send message:', err);
+    } else {
+      console.log('Message sent');
+    }
+  });
+}
 
-  function sendUDPMessage(message) {
-    const buffer = Buffer.from(message);
+function sendKeyUDPMessage(message) {
+  const buffer = Buffer.from(message);
+  Array.from({ length: 3 }, () => {
     server.send(buffer, 0, buffer.length, BROADCAST_PORT, ADDRESS, (err) => {
       if (err) {
         console.error('Failed to send message:', err);
@@ -43,20 +59,11 @@ io.on('connection', (socket) => {
         console.log('Message sent');
       }
     });
-  }
+  });
+}
 
-  function sendKeyUDPMessage(message) {
-    const buffer = Buffer.from(message);
-    Array.from({ length: 3 }, () => {
-      server.send(buffer, 0, buffer.length, BROADCAST_PORT, ADDRESS, (err) => {
-        if (err) {
-          console.error('Failed to send message:', err);
-        } else {
-          console.log('Message sent');
-        }
-      });
-    });
-  }
+io.on('connection', (socket) => {
+  console.log('A client connected');
 
   socket.on('udp-send', (message) => {
     sendUDPMessage(message);
