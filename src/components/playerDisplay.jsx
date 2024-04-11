@@ -51,8 +51,8 @@ const PlayerDisplay = ({ game }) => {
     <div className={playerDisplayStyles.playerDisplay}>
       <div className={playerDisplayStyles.redTeam}>
         <span className={playerDisplayStyles.teamLabel}>Red Team</span>
-        {redPlayers.map((player) => (
-          <div key={player.playerID} className={playerDisplayStyles.redPlayer}>
+        {redPlayers.map((player, index) => (
+          <div key={index} className={playerDisplayStyles.redPlayer}>
             <span className={playerDisplayStyles.redPlayerName}>
               {player.codename}
             </span>
@@ -64,9 +64,9 @@ const PlayerDisplay = ({ game }) => {
       </div>
       <div className={playerDisplayStyles.greenTeam}>
         <span className={playerDisplayStyles.teamLabel}>Green Team</span>
-        {greenPlayers.map((player) => (
+        {greenPlayers.map((player, index) => (
           <div
-            key={player.playerID}
+            key={index}
             className={playerDisplayStyles.greenPlayer}
           >
             <span className={playerDisplayStyles.greenPlayerName}>
