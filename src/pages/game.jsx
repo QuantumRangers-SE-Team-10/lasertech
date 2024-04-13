@@ -28,17 +28,35 @@ const Game = () => {
         </div>
       )
     }
+
+    const buttonHandler = () => {
+      let button = document.getElementById("startbutton");
+      button.parentNode.removeChild(button);
+      let window = document.getElementById("window");
+      window.style = "{{display: 'block'}}";
+    }
     
     return (
-        <div className={gameStyles.window}>
+      <>
+        <button
+          id = "startbutton"
+          className = {gameStyles.startButton}
+          onClick = {buttonHandler}
+        >
+          Click To Start Countdown
+        </button>
+        <div className={gameStyles.window} id="window" style={{display: "none"}}>
             <div className={gameStyles.windowHeader}>
                 <h1>Game</h1>
             </div>
             {!!game.error || <PlayerDisplay game={game} />}
             {/* <PlayerAction /> */}
-            <GameMusic />
-            <Countdown startTime={30} gameTime={360} />
+            <div>
+              <GameMusic />
+              <Countdown startTime={30} gameTime={360} />
+            </div>
         </div>
+      </>
 
     );
 };
