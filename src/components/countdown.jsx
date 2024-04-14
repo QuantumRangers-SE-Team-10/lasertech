@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import gameStyles from "../css/game.module.css";
 import io from 'socket.io-client';
+import {useNavigate} from 'react-router-dom';
 
 const socket = io('http://localhost:3000');
 
 const useCountdown = (startTime, gameTime) => {
   const [countdown, setCountdown] = useState(startTime);
   const [gameTimeRemaining, setGameTimeRemaining] = useState(gameTime);
+
 
   useEffect(() => {
     if (countdown === 0) {
@@ -37,6 +39,11 @@ const useCountdown = (startTime, gameTime) => {
 
 const Countdown = ({ startTime, gameTime }) => {
   const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime);
+  const navigate = useNavigate();
+  const handleNewGame = () => {
+    navigate('/onboarding');
+  
+  }; 
 
   return (
     <div className={gameStyles.timeRemaining}>
@@ -46,6 +53,11 @@ const Countdown = ({ startTime, gameTime }) => {
         <p>Time remaining: {gameTimeRemaining} seconds</p>
       ) : (
         <p>Game ended</p>
+      )}
+      {countdown === 0 && gameTimeRemaining <= 0 && (
+      <button className={gameStyles.button} onClick={handleNewGame}>
+      New Game
+      </button>
       )}
     </div>
   );
