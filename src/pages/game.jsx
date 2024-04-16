@@ -18,6 +18,7 @@ const Game = () => {
       const g = await getGame(gameId);
       setGame(g);
     }, [searchParams]);
+    const [countdown, setCountdown] = useState();
 
     if (game.error) {
       return (
@@ -32,9 +33,14 @@ const Game = () => {
     const buttonHandler = () => {
       let button = document.getElementById("startbutton");
       button.parentNode.removeChild(button);
+      addCountdown();
       let window = document.getElementById("window");
       window.style = "{{display: 'block'}}";
     }
+
+    function addCountdown() {
+      setCountdown(<Countdown startTime={30} gameTime={360} />);
+    } 
     
     return (
       <>
@@ -53,7 +59,8 @@ const Game = () => {
             {/* <PlayerAction /> */}
             <div>
               <GameMusic />
-              <Countdown startTime={30} gameTime={360} />
+              {/* <Countdown startTime={30} gameTime={360} /> */}
+              {countdown}
             </div>
         </div>
       </>
