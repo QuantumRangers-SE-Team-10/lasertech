@@ -5,13 +5,15 @@
   grid-gap: 10px;
   margin: 10px;
   background-color: blue;
+  height: 500px;
+  justify-content: start;
 }
 
 .playerAction {
   grid-column: span 12; 
+  margin-bottom: 2px;
+  justify-content: flex-start;
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 3;
 }
 
 .playerName {
