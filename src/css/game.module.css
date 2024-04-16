@@ -58,3 +58,18 @@
   border-radius: 5px;
   box-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #ecc601, 0 0 30px #ecc601, 0 0 40px #ecc601, 0 0 55px #ecc601, 0 0 75px #ecc601;
 }
+
+.button {
+  text-align: center;
+  background-color: mediumseagreen ; 
+  color: white; 
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer; 
+  width: 30%;
+}
+
+.button:hover {
+  background-color: lightgreen; 
+}
