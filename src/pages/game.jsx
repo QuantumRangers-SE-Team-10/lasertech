@@ -7,6 +7,7 @@ import gameStyles from "../css/game.module.css";
 import PlayerDisplay from "../components/playerDisplay.jsx";
 import PlayerAction from "../components/playerAction.jsx";
 import Countdown from "../components/countdown.jsx";
+import GameMusic from "../components/gameMusic.jsx";
 
 import { getGame } from "../../api/game";
 import { getAllPlayers } from "../../api/player";
@@ -17,6 +18,7 @@ const socket = io('http://localhost:3000');
 const Game = () => {
   const [game, setGame] = useState({});
   const [searchParams] = useSearchParams();
+  const [countdown, setCountdown] = useState();
   useMemo(async () => {
     const gameId = searchParams.get('id') || '';
     const g = await getGame(gameId);
@@ -65,6 +67,18 @@ const Game = () => {
     };
   }, [players, playerSessions, game]);
 
+  const buttonHandler = () => {
+      let button = document.getElementById("startbutton");
+      button.parentNode.removeChild(button);
+      addCountdown();
+      let window = document.getElementById("window");
+      window.style = "{{display: 'block'}}";
+    }
+
+    function addCountdown() {
+      setCountdown(<Countdown startTime={10} gameTime={360} />);
+    }
+
   if (game.error) {
     return (
       <div className={gameStyles.window}>
@@ -76,14 +90,24 @@ const Game = () => {
   }
     
   return (
-    <div className={gameStyles.window}>
-      <div className={gameStyles.windowHeader}>
-        <h1>Game</h1>
+    <>
+      <button
+        id = "startbutton"
+        className = {gameStyles.startButton}
+        onClick = {buttonHandler}
+      >
+        Click To Start Countdown
+      </button>
+      <div className={gameStyles.window} id="window" style={{display: "none"}}>
+        <div className={gameStyles.windowHeader}>
+          <h1>Game</h1>
+        </div>
+        {!!game.error || <PlayerDisplay game={game} />}
+        {!!game.error || <PlayerAction actions = {playerActions} />}
+        <GameMusic />
+        {countdown}
       </div>
-      {!!game.error || <PlayerDisplay game={game} />}
-      {!!game.error || <PlayerAction actions = {playerActions} />}
-      <Countdown startTime={1} gameTime={360} />
-    </div>
+    </>
   );
 };
 
