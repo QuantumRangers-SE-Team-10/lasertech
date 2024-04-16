@@ -10,9 +10,13 @@ const useCountdown = (startTime, gameTime) => {
   const [gameTimeRemaining, setGameTimeRemaining] = useState(gameTime);
 
   useEffect(() => {
-    if (countdown === 0) {
+    let countdownInterval;
+    let gameTimeInterval;
 
-      const gameTimeInterval = setInterval(() => {
+    if (countdown === 0) {
+      socket.emit('game-start');
+
+      gameTimeInterval = setInterval(() => {
         setGameTimeRemaining((prevTime) => prevTime - 1);
       }, 1000);
 
@@ -22,14 +26,13 @@ const useCountdown = (startTime, gameTime) => {
           socket.emit('game-end');
         }
       };
+    } else {
+      countdownInterval = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+
+      return () => clearInterval(countdownInterval);
     }
-
-    const countdownInterval = setInterval(() => {
-      setCountdown((prevCountdown) => prevCountdown - 1);
-    }, 1000);
-    socket.emit('game-start');
-
-    return () => clearInterval(countdownInterval);
   }, [countdown, gameTimeRemaining]);
 
   return { countdown, gameTimeRemaining };
