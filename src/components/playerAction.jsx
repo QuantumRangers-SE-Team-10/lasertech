@@ -1,4 +1,7 @@
 import playerActionStyles from "../css/playerAction.module.css"
+import PropTypes from 'prop-types';
+
+
 
 const PlayerActions = ({ sender, senderColor, recipient, recipientColor}) => {
     return (
@@ -12,6 +15,15 @@ const PlayerActions = ({ sender, senderColor, recipient, recipientColor}) => {
         </div>
     );
 };
+
+PlayerActions.propTypes = {
+    sender: PropTypes.string.isRequired,
+    senderColor: PropTypes.string.isRequired,
+    recipient: PropTypes.string.isRequired,
+    recipientColor: PropTypes.string.isRequired,
+};
+
+
 
 const PlayerAction = ({ actions }) => {
 
@@ -54,10 +66,16 @@ const PlayerAction = ({ actions }) => {
     //         fetchGame(gameId);
     //         fetchPlayers(gameId);
     //     }, []);
+
+    const MAX_ACTIONS = 14;
+
+    const reversedActions = [...actions].reverse();
+
+    const limitedActions = reversedActions.slice(0, MAX_ACTIONS);
     
         return (
                 <div className={playerActionStyles.actionScreen}>
-                    {actions.map((action, index) => (  
+                    {limitedActions.map((action, index) => (  
                         <PlayerActions
                             key={index}
                             sender={action.sender}
@@ -69,5 +87,17 @@ const PlayerAction = ({ actions }) => {
                 </div>
             );
         };
+
+        PlayerAction.propTypes = {
+            actions: PropTypes.arrayOf(
+                PropTypes.shape({
+                    sender: PropTypes.string.isRequired,
+                    senderColor: PropTypes.string.isRequired,
+                    recipient: PropTypes.string.isRequired,
+                    recipientColor: PropTypes.string.isRequired,
+                })
+            ).isRequired,
+        };
+        
         
     export default PlayerAction;
