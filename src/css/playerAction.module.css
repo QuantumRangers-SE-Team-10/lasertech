@@ -1,11 +1,11 @@
 .actionScreen {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(12, 1fr);
   grid-gap: 10px;
   margin: 10px;
   background-color: blue;
-  height: 500px;
+  height: 420px;
   justify-content: start;
 }
 

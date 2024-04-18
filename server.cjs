@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('game-start', () => {
-    sendKeyUDPMessage('202');
+    sendUDPMessage('202');
   });
 
   socket.on('game-end', () => {

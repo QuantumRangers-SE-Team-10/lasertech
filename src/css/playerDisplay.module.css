@@ -19,6 +19,22 @@
     padding: 100px;
 }
 
+.player {
+    display: grid;
+    grid: repeat(2, auto) / repeat(6, 1fr);
+    margin: 10px 20px;
+}
+
+.playerName {
+    grid-column: span 4;
+    text-align: left;
+}
+
+.playerScore {
+    grid-column: span 2;
+    text-align: right;
+}
+
 .redTeam {
     /* display: grid; */
     background-color: red;
@@ -32,7 +48,7 @@
 }
 
 .redPlayerName {
-    background-color: red;
+    /* background-color: red; */
     grid-column: span 4;
     text-align: left;
 }
@@ -56,7 +72,7 @@
 }
 
 .greenPlayerName {
-    background-color: green;
+    /* background-color: green; */
     grid-column: span 4;
     text-align: left;
 }
