@@ -67,8 +67,6 @@ const Game = () => {
         sender.hasHitBase = true;
       } else {
         recipient = playerInfo.find((pS) => pS.equipmentId === Number(data.recipient));
-        console.log(playerInfo);
-        console.log(sender);
         sender.playerScore += 10;
       }
       const action = {
