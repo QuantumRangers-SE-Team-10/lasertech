@@ -26,18 +26,30 @@
 
 .player {
     display: grid;
-    grid: repeat(2, auto) / repeat(6, 1fr);
+    grid: repeat(2, auto) / repeat(12, 1fr);
     margin: 10px 20px;
 }
 
+.baseBadge {
+    grid-column: span 1;
+}
+
+.baseBadgeImage {
+    vertical-align: middle;
+    width: 20px;
+    margin: 0 0 4px 0;
+}
+
 .playerName {
-    grid-column: span 4;
+    grid-column: span 9;
     text-align: left;
+    vertical-align: middle;
 }
 
 .playerScore {
     grid-column: span 2;
     text-align: right;
+    vertical-align: middle;
 }
 
 .redTeam {

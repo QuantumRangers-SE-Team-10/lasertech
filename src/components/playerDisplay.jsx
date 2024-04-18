@@ -32,6 +32,16 @@ const TeamDisplay = ({ team, players }) => {
       {/*<span className={playerDisplayStyles.teamLabel}>{team} Team</span>*/}
       {players.map((player, index) => (
         <div key={index} className={playerDisplayStyles.player}>
+          <span className={playerDisplayStyles.baseBadge}>
+            {player.hasHitBase && (
+              <img
+                className={playerDisplayStyles.baseBadgeImage}
+                src="../../assets/baseicon.png"
+                alt="Hit Base Badge"
+              />
+            )}
+          </span>
+          
           <span className={playerDisplayStyles.playerName}>
             {player.codename}
           </span>
