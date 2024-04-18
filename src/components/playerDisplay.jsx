@@ -27,8 +27,9 @@ PlayerDisplay.propTypes = {
 
 const TeamDisplay = ({ team, players }) => {
   return (
-    <div className={team === 'Red' ? playerDisplayStyles.redTeam : playerDisplayStyles.greenTeam }>
-      <span className={playerDisplayStyles.teamLabel}>{team} Team</span>
+    <div className={team === 'Red' ? playerDisplayStyles.redTeam : playerDisplayStyles.greenTeam}>
+      <img className={playerDisplayStyles.teamImage} src={`../../assets/${team.toLowerCase()}.png`} alt={`${team} Team`} width='30%'/>
+      {/*<span className={playerDisplayStyles.teamLabel}>{team} Team</span>*/}
       {players.map((player, index) => (
         <div key={index} className={playerDisplayStyles.player}>
           <span className={playerDisplayStyles.playerName}>
