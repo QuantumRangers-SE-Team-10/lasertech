@@ -19,10 +19,45 @@
     padding: 100px;
 }
 
+.teamImage {
+    width: 70%;
+    padding: 30px 0 10px;
+}
+
+.player {
+    display: grid;
+    grid: repeat(2, auto) / repeat(12, 1fr);
+    margin: 10px 20px;
+}
+
+.baseBadge {
+    grid-column: span 1;
+}
+
+.baseBadgeImage {
+    vertical-align: middle;
+    width: 20px;
+    margin: 0 0 4px;
+}
+
+.playerName {
+    grid-column: span 9;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.playerScore {
+    grid-column: span 2;
+    text-align: right;
+    vertical-align: middle;
+}
+
 .redTeam {
-    /* display: grid; */
-    background-color: red;
     grid-column: span 6;
+    margin: 10px;
+    background-color: black;
+    outline: red solid 3px;
+    border-radius: 10px;
 }
 
 .redPlayer {
@@ -32,7 +67,7 @@
 }
 
 .redPlayerName {
-    background-color: red;
+    /* background-color: red; */
     grid-column: span 4;
     text-align: left;
 }
@@ -44,9 +79,11 @@
 }
 
 .greenTeam {
-    /* display: grid; */
-    background-color: green;
     grid-column: span 6;
+    margin: 10px;
+    background-color: black;
+    outline: #0F0 solid 3px;
+    border-radius: 10px;
 }
 
 .greenPlayer {
@@ -56,7 +93,7 @@
 }
 
 .greenPlayerName {
-    background-color: green;
+    /* background-color: green; */
     grid-column: span 4;
     text-align: left;
 }

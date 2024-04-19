@@ -9,7 +9,7 @@ const socket = io('http://localhost:3000');
 const useCountdown = (startTime, gameTime) => {
   const [countdown, setCountdown] = useState(startTime);
   const [gameTimeRemaining, setGameTimeRemaining] = useState(gameTime);
-  const [gameStarted , setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
     let countdownInterval;
@@ -50,7 +50,7 @@ const Countdown = ({ startTime, gameTime }) => {
   const navigate = useNavigate();
   const handleNewGame = () => {
     navigate('/onboarding');
-  
+    window.location.reload();
   }; 
 
   return (
@@ -62,7 +62,7 @@ const Countdown = ({ startTime, gameTime }) => {
       ) : (
         <p>Game ended</p>
       )}
-      {countdown === 0 && gameTimeRemaining <= 0 && (
+      {gameTimeRemaining <= 0 && (
       <button className={gameStyles.button} onClick={handleNewGame}>
       New Game
       </button>
