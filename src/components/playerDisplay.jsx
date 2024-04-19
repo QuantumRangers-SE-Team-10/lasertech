@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import playerDisplayStyles from "/src/css/playerDisplay.module.css";
+import TeamScoreDisplay from "./teamScoreDisplay";
 import PropTypes from 'prop-types';
 
 import { getPlayer } from "../../api/player";
@@ -24,6 +25,7 @@ const PlayerDisplay = ({ game }) => {
             };
           })
         );
+
         const greenPlayers = playerSessionsForGame.filter((player) => player.team === 'Green');
         const greenPlayerInfo = await Promise.all(
           greenPlayers.map(async (player) => {
@@ -61,6 +63,7 @@ const PlayerDisplay = ({ game }) => {
             </span>
           </div>
         ))}
+      <TeamScoreDisplay playerSession={redPlayers}/>
       </div>
       <div className={playerDisplayStyles.greenTeam}>
         <span className={playerDisplayStyles.teamLabel}>Green Team</span>
@@ -77,6 +80,7 @@ const PlayerDisplay = ({ game }) => {
             </span>
           </div>
         ))}
+        <TeamScoreDisplay playerSession={greenPlayers}/>
       </div>
     </div>
   );
