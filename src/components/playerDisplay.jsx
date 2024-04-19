@@ -63,7 +63,7 @@ const PlayerDisplay = ({ game }) => {
             </span>
           </div>
         ))}
-      <TeamScoreDisplay playerSession={redPlayers}/>
+      {greenPlayers && <TeamScoreDisplay playerSession={redPlayers}/>}
       </div>
       <div className={playerDisplayStyles.greenTeam}>
         <span className={playerDisplayStyles.teamLabel}>Green Team</span>
@@ -80,7 +80,7 @@ const PlayerDisplay = ({ game }) => {
             </span>
           </div>
         ))}
-        <TeamScoreDisplay playerSession={greenPlayers}/>
+        {greenPlayers && < TeamScoreDisplay playerSession={greenPlayers}/>}
       </div>
     </div>
   );

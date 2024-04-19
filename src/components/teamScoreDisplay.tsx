@@ -5,6 +5,8 @@ const TeamScoreDisplay = ({playerSession}) => {
     const [teamScore, setTeamScore] = useState(0);
     
     useEffect(() => {
+        if(playerSession.length < 1) return
+        
         const tScore = playerSession.reduce((acc,curr) =>  acc + curr.playerScore, 0)
         setTeamScore(tScore)
     },[playerSession])
