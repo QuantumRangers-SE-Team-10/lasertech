@@ -71,9 +71,9 @@ const Game = () => {
       }
       const action = {
         sender: players.find((p) => p.id === sender.playerId).codename,
-        senderColor: sender.team.toLowerCase(),
+        senderColor: sender.team.toLowerCase() === 'red' ? 'red' : '#0f0',
         recipient: recipient.playerId ? players.find((p) => p.id === recipient.playerId).codename : recipient.codename,
-        recipientColor: recipient.team.toLowerCase(),
+        recipientColor: recipient.team.toLowerCase() === 'red' ? 'red' : '#0f0',
       };
       setPlayerActions((prevActions) => [...prevActions, action]);
     });
@@ -116,7 +116,7 @@ const Game = () => {
       </button>
       <div className={gameStyles.window} id="window" style={{display: "none"}}>
         <div className={gameStyles.windowHeader}>
-          <h1>Game</h1>
+          <img className={gameStyles.gameImage} src={`../../assets/game.png`} alt='Game'/>
         </div>
         {!!game.error || <PlayerDisplay playerInfo={playerInfo} />}
         {!!game.error || <PlayerAction actions={playerActions} />}

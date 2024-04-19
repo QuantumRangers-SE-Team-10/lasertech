@@ -25,6 +25,11 @@
   margin: 0;
 }
 
+.gameImage {
+  width: 35%;
+  margin: 20px 0;
+}
+
 .playerDisplay {
   grid-column: span 12;
   grid-row-start: 3
