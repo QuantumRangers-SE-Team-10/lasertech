@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import gameStyles from "../css/game.module.css";
-import io from 'socket.io-client';
 import {useNavigate} from 'react-router-dom';
 
-const socket = io('http://localhost:3000');
-
-const useCountdown = (startTime, gameTime) => {
+const useCountdown = (startTime, gameTime, socket) => {
   const [countdown, setCountdown] = useState(startTime);
   const [gameTimeRemaining, setGameTimeRemaining] = useState(gameTime);
   const [gameStarted, setGameStarted] = useState(false);
@@ -45,7 +42,7 @@ const useCountdown = (startTime, gameTime) => {
   return { countdown, gameTimeRemaining };
 };
 
-const Countdown = ({ startTime, gameTime }) => {
+const Countdown = ({ startTime, gameTime, socket }) => {
   const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime);
   const navigate = useNavigate();
   const handleNewGame = () => {

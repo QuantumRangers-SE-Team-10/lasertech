@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
+
 import { addPlayer, getPlayer } from "../../api/player";
 import { addPlayerSession } from "../../api/playerSession";
 import { addGame } from "../../api/game";
 
 import onboardingStyles from "../css/onboarding.module.css";
 
-import io from 'socket.io-client';
-
-const socket = io('http://localhost:3000');
-
-const Onboarding = () => {
+const Onboarding = ({ socket }) => {
   const navigate = useNavigate();
   const [playerID, setPlayerID] = useState("");
   const [redTeamPlayers, setRedTeamPlayers] = useState(
@@ -437,6 +435,10 @@ const Onboarding = () => {
       </div>
     </div>
   );
+};
+
+Onboarding.propTypes = {
+  socket: PropTypes.object.isRequired,
 };
 
 export default Onboarding;

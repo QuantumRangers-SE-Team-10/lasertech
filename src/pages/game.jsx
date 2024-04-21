@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
-import io from 'socket.io-client';
+import PropTypes from 'prop-types';
 
 import gameStyles from "../css/game.module.css";
 
@@ -13,9 +13,7 @@ import { getGame } from "../../api/game";
 import { getPlayer, getAllPlayers } from "../../api/player";
 import { getAllPlayerSessions } from "../../api/playerSession";
 
-const socket = io('http://localhost:3000');
-
-const Game = () => {
+const Game = ({ socket }) => {
   const [game, setGame] = useState({});
   const [searchParams] = useSearchParams();
   const [countdown, setCountdown] = useState();
@@ -127,6 +125,9 @@ const Game = () => {
   );
 };
 
+Game.propTypes = {
+  socket: PropTypes.object.isRequired,
+};
 
 export default Game;
 
