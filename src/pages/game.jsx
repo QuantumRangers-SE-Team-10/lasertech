@@ -17,6 +17,7 @@ const Game = ({ socket }) => {
   const [game, setGame] = useState({});
   const [searchParams] = useSearchParams();
   const [countdown, setCountdown] = useState();
+  const [gameMusic, setGameMusic] = useState();
   useMemo(async () => {
     const gameId = searchParams.get('id') || '';
     const g = await getGame(gameId);
@@ -35,7 +36,6 @@ const Game = ({ socket }) => {
       if (game.id != null) {
         const ps = (await getAllPlayerSessions())
           .filter((playerSession) => playerSession.gameId === game.id);
-        // console.log('PlayerSessions:', ps);
         const playerInfo = await Promise.all(
           ps.map(async (player) => {
             const playerInfo = await getPlayer(player.playerId);
@@ -71,7 +71,7 @@ const Game = ({ socket }) => {
         sender: players.find((p) => p.id === sender.playerId).codename,
         senderColor: sender.team.toLowerCase() === 'red' ? 'red' : '#0f0',
         recipient: recipient.playerId ? players.find((p) => p.id === recipient.playerId).codename : recipient.codename,
-        recipientColor: recipient.team.toLowerCase() === 'red' ? 'red' : '#0f0',
+        recipientColor: sender.team.toLowerCase() === 'red' ? '#0f0' : 'red',
       };
       setPlayerActions((prevActions) => [...prevActions, action]);
     });
@@ -85,12 +85,17 @@ const Game = ({ socket }) => {
       let button = document.getElementById("startbutton");
       button.parentNode.removeChild(button);
       addCountdown();
+      addGameMusic();
       let window = document.getElementById("window");
       window.style = "{{display: 'block'}}";
     }
 
     function addCountdown() {
-      setCountdown(<Countdown startTime={5} gameTime={360} />);
+      setCountdown(<Countdown startTime={30} gameTime={360} socket={socket} />);
+    }
+
+    function addGameMusic() {
+      setGameMusic(<GameMusic />);
     }
 
   if (game.error) {
@@ -102,7 +107,7 @@ const Game = ({ socket }) => {
       </div>
     )
   }
-    
+
   return (
     <>
       <button
@@ -113,13 +118,11 @@ const Game = ({ socket }) => {
         Click To Start Countdown
       </button>
       <div className={gameStyles.window} id="window" style={{display: "none"}}>
-        <div className={gameStyles.windowHeader}>
-          <img className={gameStyles.gameImage} src={`../../assets/game.png`} alt='Game'/>
-        </div>
+        <img className={gameStyles.gameImage} src={`../../assets/game.png`} alt='Game'/>
         {!!game.error || <PlayerDisplay playerInfo={playerInfo} />}
         {!!game.error || <PlayerAction actions={playerActions} />}
-        <GameMusic />
         {countdown}
+        {gameMusic}
       </div>
     </>
   );
