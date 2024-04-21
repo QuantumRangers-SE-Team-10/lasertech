@@ -78,7 +78,7 @@ const Game = ({ socket }) => {
     return () => {
       socket.off('hit');
     };
-  }, [players, playerInfo, game]);
+  }, [players, playerInfo, game, socket]);
 
   const buttonHandler = () => {
       let button = document.getElementById("startbutton");

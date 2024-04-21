@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 
 import TeamScoreDisplay from "./teamScoreDisplay";
@@ -6,20 +5,23 @@ import TeamScoreDisplay from "./teamScoreDisplay";
 import playerDisplayStyles from "../../src/css/playerDisplay.module.css";
 
 const PlayerDisplay = ({ playerInfo }) => {
-  const [redPlayers, setRedPlayers] = useState([]);
-  const [greenPlayers, setGreenPlayers] = useState([]);
-
-  useEffect(() => {
-    const redPlayerInfo = playerInfo.filter((player) => player.team === 'Red');
-    const greenPlayerInfo = playerInfo.filter((player) => player.team === 'Green');
-    setRedPlayers(redPlayerInfo);
-    setGreenPlayers(greenPlayerInfo);
-  }, [playerInfo]);
+  const redPlayerInfo = playerInfo.filter((player) => player.team === 'Red');
+  const greenPlayerInfo = playerInfo.filter((player) => player.team === 'Green');
+  const redScore = redPlayerInfo.reduce((acc, player) => acc + player.playerScore, 0);
+  const greenScore = greenPlayerInfo.reduce((acc, player) => acc + player.playerScore, 0);
+  let highScoringTeam = null;
+  if (redScore > greenScore) {
+    highScoringTeam = 'red';
+  } else if (greenScore > redScore) {
+    highScoringTeam = 'green';
+  } else {
+    highScoringTeam = null;
+  }
 
   return (
     <div className={playerDisplayStyles.playerDisplay}>
-      <TeamDisplay team="Red" players={redPlayers} />
-      <TeamDisplay team="Green" players={greenPlayers} />
+      <TeamDisplay team="Red" players={redPlayerInfo} highScoring={highScoringTeam === 'red'} />
+      <TeamDisplay team="Green" players={greenPlayerInfo} highScoring={highScoringTeam === 'green'} />
     </div>
   );
 };
@@ -28,7 +30,7 @@ PlayerDisplay.propTypes = {
   playerInfo: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const TeamDisplay = ({ team, players }) => {
+const TeamDisplay = ({ team, players, highScoring }) => {
   return (
     <div className={team === 'Red' ? playerDisplayStyles.redTeam : playerDisplayStyles.greenTeam}>
       <img className={playerDisplayStyles.teamImage} src={`../../assets/${team.toLowerCase()}.png`} alt={`${team} Team`}/>
@@ -51,7 +53,7 @@ const TeamDisplay = ({ team, players }) => {
           </span>
         </div>
       ))}
-      <TeamScoreDisplay playerSessions={players} />
+      <TeamScoreDisplay team={team} playerSessions={players} highScoring={highScoring} />
     </div>
   );
 }
@@ -59,6 +61,7 @@ const TeamDisplay = ({ team, players }) => {
 TeamDisplay.propTypes = {
   team: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
+  highScoring: PropTypes.bool.isRequired,
 };
 
 export default PlayerDisplay;
