@@ -1,4 +1,4 @@
-import gameLogo from "../../assets/logo.png";
+import gameLogo from "../assets/images/logo.png";
 import splashStyling from "../css/splash.module.css";
 import ParticleAnimation from "../components/particleAnimation.jsx";
 

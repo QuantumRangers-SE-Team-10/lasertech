@@ -50,7 +50,7 @@ const PlayerAction = ({ actions, teamWin, gameEnd }) => {
       </div>
       {teamWin && gameEnd ? (
         <div className={playerActionStyles.winImage}>
-          <img src={`../../assets/${gameEndImage}.png`} alt='Draw!'/>
+          <img src={`src/assets/images/${gameEndImage}.png`} alt='Draw!'/>
         </div>
       ) : null}
     </div>

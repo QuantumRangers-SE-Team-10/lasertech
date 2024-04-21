@@ -300,7 +300,7 @@ const Onboarding = ({ socket }) => {
         </div>
         <div className={onboardingStyles.columns}>
           <div className={onboardingStyles.column}>
-            <img className={onboardingStyles.teamImage} src='../../assets/red.png'></img>
+            <img className={onboardingStyles.teamImage} src='src/assets/images/red.png'></img>
             {redTeamPlayers.map((player, index) => (
               <div key={index}>
                 <input
@@ -332,7 +332,7 @@ const Onboarding = ({ socket }) => {
             ))}
           </div>
           <div className={onboardingStyles.column}>
-            <img className={onboardingStyles.teamImage} src='../../assets/green.png'></img>
+            <img className={onboardingStyles.teamImage} src='src/assets/images/green.png'></img>
             {greenTeamPlayers.map((player, index) => (
               <div key={index}>
                 <input

@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import TeamScoreDisplay from "./teamScoreDisplay";
 
 import playerDisplayStyles from "../../src/css/playerDisplay.module.css";
-import { useEffect } from 'react';
+import baseIconGFX from "../../src/assets/images/baseicon.png";
 
 const PlayerDisplay = ({ playerInfo, setTeamWin }) => {
   const redPlayerInfo = playerInfo.filter((player) => player.team === 'Red');
@@ -39,14 +40,14 @@ PlayerDisplay.propTypes = {
 const TeamDisplay = ({ team, players, highScoring }) => {
   return (
     <div className={team === 'Red' ? playerDisplayStyles.redTeam : playerDisplayStyles.greenTeam}>
-      <img className={playerDisplayStyles.teamImage} src={`../../assets/${team.toLowerCase()}.png`} alt={`${team} Team`}/>
+      <img className={playerDisplayStyles.teamImage} src={`src/assets/images/${team.toLowerCase()}.png`} alt={`${team} Team`}/>
       {players.map((player, index) => (
         <div key={index} className={playerDisplayStyles.player}>
           <span className={playerDisplayStyles.baseBadge}>
             {player.hasHitBase && (
               <img
                 className={playerDisplayStyles.baseBadgeImage}
-                src="../../assets/baseicon.png"
+                src={baseIconGFX}
                 alt="Hit Base Badge"
               />
             )}

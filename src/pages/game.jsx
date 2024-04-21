@@ -2,12 +2,13 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useMemo, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-import gameStyles from "../css/game.module.css";
-
 import PlayerDisplay from "../components/playerDisplay.jsx";
 import PlayerAction from "../components/playerAction.jsx";
 import Countdown from "../components/countdown.jsx";
 import GameMusic from "../components/gameMusic.jsx";
+
+import gameStyles from "../css/game.module.css";
+import gameGFX from "../assets/images/game.png";
 
 import { getGame } from "../../api/game";
 import { getPlayer, getAllPlayers } from "../../api/player";
@@ -94,7 +95,7 @@ const Game = ({ socket }) => {
     }
 
     function addCountdown() {
-      setCountdown(<Countdown startTime={3} gameTime={7} socket={socket} setGameEnd={setGameEnd} />);
+      setCountdown(<Countdown startTime={30} gameTime={360} socket={socket} setGameEnd={setGameEnd} />);
     }
 
     function addGameMusic() {
@@ -121,7 +122,7 @@ const Game = ({ socket }) => {
         Click To Start Countdown
       </button>
       <div className={gameStyles.window} id="window" style={{display: "none"}}>
-        <img className={gameStyles.gameImage} src={`../../assets/game.png`} alt='Game'/>
+        <img className={gameStyles.gameImage} src={gameGFX} alt='Game'/>
         {!!game.error || <PlayerDisplay playerInfo={playerInfo} setTeamWin={setTeamWin} />}
         {!!game.error || <PlayerAction actions={playerActions} teamWin={teamWin} gameEnd={gameEnd} />}
         {countdown}
