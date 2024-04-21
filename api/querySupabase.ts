@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_DB_URL;
+const supabaseUrl = `${window.location.origin}/supabase`
 const supabaseKey = import.meta.env.VITE_DB_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -31,8 +31,6 @@ const querySupabase = async (
             const { data, error } = await supabase.from(table).delete().eq('id', id).select()
             response = data?.at(0);
         }
-        
-        // console.log(response)
     } catch (error) {
         response = { error: error.response, data: null };
     }

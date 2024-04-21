@@ -2,15 +2,20 @@
 /* stylelint-disable comment-empty-line-before */
 /* game.css */
 .window {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
   padding: 20px;
   border: 1px solid #ecc601;
   color: #f9f9f9;
   border-radius: 5px;
   box-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #ecc601, 0 0 30px #ecc601, 0 0 40px #ecc601, 0 0 55px #ecc601, 0 0 75px #ecc601;
   background-color: #222;
-  margin-bottom: 20px;
   
+}
+
+* { 
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: bold;
 }
 
 .windowHeader {
@@ -23,6 +28,11 @@
 
 .windowHeader h2 {
   margin: 0;
+}
+
+.gameImage {
+  width: 35%;
+  margin: 20px 0;
 }
 
 .playerDisplay {

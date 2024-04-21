@@ -6,6 +6,12 @@
     animation-duration: 60s;
     animation-iteration-count: infinite;
     color: white;
+    animation-name: particle;
+
+    /* animation-duration: 5s; */
+    animation-timing-function: linear;
+
+    /* animation-iteration-count: infinite; */
 }
   
 .particle:nth-child(odd) {
@@ -19,6 +25,7 @@
 }
  
 /* -20 is lowest vw, 75 is highest vw */
+
 .particle:nth-child(1) {
     opacity: 0.65;
     animation-name: particle1;
@@ -212,4 +219,31 @@
     100% {
       transform: translate3d(16vw, 31vh, 36px);
     }
+}
+
+/* Create particle generator */
+
+/* Define the range for random values */
+:root {
+  --min-opacity: 0.2;
+  --max-opacity: 0.9;
+  --min-x: -50;
+  --max-x: 50;
+  --min-y: -50;
+  --max-y: 50;
+  --min-z: -50;
+  --max-z: 50;
+  --min-delay: -1s;
+  --max-delay: 0s;
+}
+
+/* Define the keyframes */
+@keyframes particle {
+  100% {
+    transform: translate3d(
+      calc(var(--end-x) * 1vw),
+      calc(var(--end-y) * 1vh),
+      calc(var(--end-z) * 1px)
+    );
+  }
 }

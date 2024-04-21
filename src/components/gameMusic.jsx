@@ -17,7 +17,6 @@ const GameMusic = () => {
       let audio = document.getElementById("music");
 
       setTimeout(() => {
-        console.log(audio);
         audio.play();
       }, 13000);
     }, []);

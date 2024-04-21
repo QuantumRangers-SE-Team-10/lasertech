@@ -4,7 +4,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:5173',
+    origins: ['http://localhost:5173', 'http://127.0.0.1:5173'],
     methods: ['GET', 'POST']
   }
 });
@@ -27,7 +27,6 @@ server.on('message', (message, remote) => {
 
   if (message.indexOf(':') !== -1) {
     const parts = message.toString().split(':');
-    console.log(parts)
     io.emit('hit', { sender: parts[0], recipient: parts[1]} );
     sendUDPMessage(parts[0]);
   }
@@ -74,7 +73,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('game-start', () => {
-    sendKeyUDPMessage('202');
+    sendUDPMessage('202');
   });
 
   socket.on('game-end', () => {

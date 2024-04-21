@@ -1,93 +1,65 @@
 import { useEffect, useState } from "react";
-import playerDisplayStyles from "/src/css/playerDisplay.module.css";
-import TeamScoreDisplay from "./teamScoreDisplay";
 import PropTypes from 'prop-types';
 
-import { getPlayer } from "../../api/player";
-import { getAllPlayerSessions } from "../../api/playerSession"
+import TeamScoreDisplay from "./teamScoreDisplay";
 
-const PlayerDisplay = ({ game }) => {
+import playerDisplayStyles from "../../src/css/playerDisplay.module.css";
+
+const PlayerDisplay = ({ playerInfo }) => {
   const [redPlayers, setRedPlayers] = useState([]);
   const [greenPlayers, setGreenPlayers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const playerSessions = await getAllPlayerSessions();
-        const playerSessionsForGame = playerSessions.filter((playerSession) => playerSession.gameId === game.id);
-        const redPlayers = playerSessionsForGame.filter((player) => player.team === 'Red');
-        const redPlayerInfo = await Promise.all(
-          redPlayers.map(async (player) => {
-            const playerInfo = await getPlayer(player.playerId);
-            return {
-              ...player,
-              codename: playerInfo.codename,
-            };
-          })
-        );
-
-        const greenPlayers = playerSessionsForGame.filter((player) => player.team === 'Green');
-        const greenPlayerInfo = await Promise.all(
-          greenPlayers.map(async (player) => {
-            const playerInfo = await getPlayer(player.playerId);
-            return {
-              ...player,
-              codename: playerInfo.codename,
-            };
-          })
-        );
-        setRedPlayers(redPlayerInfo);
-        setGreenPlayers(greenPlayerInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (game) {
-      fetchData();
-    }
-
-  }, [game]);
+    const redPlayerInfo = playerInfo.filter((player) => player.team === 'Red');
+    const greenPlayerInfo = playerInfo.filter((player) => player.team === 'Green');
+    setRedPlayers(redPlayerInfo);
+    setGreenPlayers(greenPlayerInfo);
+  }, [playerInfo]);
 
   return (
     <div className={playerDisplayStyles.playerDisplay}>
-      <div className={playerDisplayStyles.redTeam}>
-        <span className={playerDisplayStyles.teamLabel}>Red Team</span>
-        {redPlayers.map((player, index) => (
-          <div key={index} className={playerDisplayStyles.redPlayer}>
-            <span className={playerDisplayStyles.redPlayerName}>
-              {player.codename}
-            </span>
-            <span className={playerDisplayStyles.redPlayerScore}>
-              {player.playerScore}
-            </span>
-          </div>
-        ))}
-      {greenPlayers && <TeamScoreDisplay playerSession={redPlayers}/>}
-      </div>
-      <div className={playerDisplayStyles.greenTeam}>
-        <span className={playerDisplayStyles.teamLabel}>Green Team</span>
-        {greenPlayers.map((player, index) => (
-          <div
-            key={index}
-            className={playerDisplayStyles.greenPlayer}
-          >
-            <span className={playerDisplayStyles.greenPlayerName}>
-              {player.codename}
-            </span>
-            <span className={playerDisplayStyles.greenPlayerScore}>
-              {player.playerScore}
-            </span>
-          </div>
-        ))}
-        {greenPlayers && < TeamScoreDisplay playerSession={greenPlayers}/>}
-      </div>
+      <TeamDisplay team="Red" players={redPlayers} />
+      <TeamDisplay team="Green" players={greenPlayers} />
     </div>
   );
 };
 
 PlayerDisplay.propTypes = {
-  game: PropTypes.object.isRequired,
+  playerInfo: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+const TeamDisplay = ({ team, players }) => {
+  return (
+    <div className={team === 'Red' ? playerDisplayStyles.redTeam : playerDisplayStyles.greenTeam}>
+      <img className={playerDisplayStyles.teamImage} src={`../../assets/${team.toLowerCase()}.png`} alt={`${team} Team`}/>
+      {players.map((player, index) => (
+        <div key={index} className={playerDisplayStyles.player}>
+          <span className={playerDisplayStyles.baseBadge}>
+            {player.hasHitBase && (
+              <img
+                className={playerDisplayStyles.baseBadgeImage}
+                src="../../assets/baseicon.png"
+                alt="Hit Base Badge"
+              />
+            )}
+          </span>
+          
+          <span className={playerDisplayStyles.playerName}>
+            {player.codename}
+          </span>
+          <span className={playerDisplayStyles.playerScore}>
+            {player.playerScore}
+          </span>
+        </div>
+      ))}
+      < TeamScoreDisplay playerSession={players}/>
+    </div>
+  );
+}
+
+TeamDisplay.propTypes = {
+  team: PropTypes.string.isRequired,
+  players: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PlayerDisplay;
