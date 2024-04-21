@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import TeamScoreDisplay from "./teamScoreDisplay";
 
 import playerDisplayStyles from "../../src/css/playerDisplay.module.css";
+import { useEffect } from 'react';
 
-const PlayerDisplay = ({ playerInfo }) => {
+const PlayerDisplay = ({ playerInfo, setTeamWin }) => {
   const redPlayerInfo = playerInfo.filter((player) => player.team === 'Red');
   const greenPlayerInfo = playerInfo.filter((player) => player.team === 'Green');
   const redScore = redPlayerInfo.reduce((acc, player) => acc + player.playerScore, 0);
@@ -15,8 +16,12 @@ const PlayerDisplay = ({ playerInfo }) => {
   } else if (greenScore > redScore) {
     highScoringTeam = 'green';
   } else {
-    highScoringTeam = null;
+    highScoringTeam = '';
   }
+
+  useEffect(() => {
+    setTeamWin(highScoringTeam);
+  }, [highScoringTeam, setTeamWin]);
 
   return (
     <div className={playerDisplayStyles.playerDisplay}>
@@ -28,6 +33,7 @@ const PlayerDisplay = ({ playerInfo }) => {
 
 PlayerDisplay.propTypes = {
   playerInfo: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setTeamWin: PropTypes.func.isRequired,
 };
 
 const TeamDisplay = ({ team, players, highScoring }) => {

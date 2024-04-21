@@ -21,22 +21,38 @@ PlayerActions.propTypes = {
   recipientColor: PropTypes.string.isRequired,
 };
 
-const PlayerAction = ({ actions }) => {
+const PlayerAction = ({ actions, teamWin, gameEnd }) => {
   const MAX_ACTIONS = 10;
   const reversedActions = [...actions].reverse();
   const limitedActions = reversedActions.slice(0, MAX_ACTIONS);
 
+  let gameEndImage;
+  if (teamWin === 'red') {
+    gameEndImage = 'redwin';
+  } else if (teamWin === 'green') {
+    gameEndImage = 'greenwin';
+  } else {
+    gameEndImage = 'draw';
+  }
+
   return (
     <div className={playerActionStyles.actionScreen}>
-      {limitedActions.map((action, index) => (
-        <PlayerActions
-          key={index}
-          sender={action.sender}
-          senderColor={action.senderColor}
-          recipient={action.recipient}
-          recipientColor={action.recipientColor}
-        />
-      ))}
+      <div className={playerActionStyles.actions}>
+        {limitedActions.map((action, index) => (
+          <PlayerActions
+            key={index}
+            sender={action.sender}
+            senderColor={action.senderColor}
+            recipient={action.recipient}
+            recipientColor={action.recipientColor}
+          />
+        ))}
+      </div>
+      {teamWin && gameEnd ? (
+        <div className={playerActionStyles.winImage}>
+          <img src={`../../assets/${gameEndImage}.png`} alt='Draw!'/>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -50,6 +66,8 @@ PlayerAction.propTypes = {
       recipientColor: PropTypes.string.isRequired,
     })
   ).isRequired,
+  teamWin: PropTypes.string.isRequired,
+  gameEnd: PropTypes.bool.isRequired,
 };
 
 export default PlayerAction;

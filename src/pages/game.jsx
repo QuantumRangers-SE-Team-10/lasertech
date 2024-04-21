@@ -54,7 +54,11 @@ const Game = ({ socket }) => {
 
   const [playerActions, setPlayerActions] = useState([]);
 
+  const [gameEnd, setGameEnd] = useState(false);
+  const [teamWin, setTeamWin] = useState('');
+
   useEffect(() => {
+    if (gameEnd) return;
     socket.on('hit', (data) => {
       const sender = playerInfo.find((pS) => pS.equipmentId === Number(data.sender));
       let recipient
@@ -78,7 +82,7 @@ const Game = ({ socket }) => {
     return () => {
       socket.off('hit');
     };
-  }, [players, playerInfo, game, socket]);
+  }, [players, playerInfo, game, gameEnd, socket]);
 
   const buttonHandler = () => {
       let button = document.getElementById("startbutton");
@@ -90,7 +94,7 @@ const Game = ({ socket }) => {
     }
 
     function addCountdown() {
-      setCountdown(<Countdown startTime={30} gameTime={360} socket={socket} />);
+      setCountdown(<Countdown startTime={3} gameTime={7} socket={socket} setGameEnd={setGameEnd} />);
     }
 
     function addGameMusic() {
@@ -118,8 +122,8 @@ const Game = ({ socket }) => {
       </button>
       <div className={gameStyles.window} id="window" style={{display: "none"}}>
         <img className={gameStyles.gameImage} src={`../../assets/game.png`} alt='Game'/>
-        {!!game.error || <PlayerDisplay playerInfo={playerInfo} />}
-        {!!game.error || <PlayerAction actions={playerActions} />}
+        {!!game.error || <PlayerDisplay playerInfo={playerInfo} setTeamWin={setTeamWin} />}
+        {!!game.error || <PlayerAction actions={playerActions} teamWin={teamWin} gameEnd={gameEnd} />}
         {countdown}
         {gameMusic}
       </div>

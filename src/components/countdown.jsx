@@ -37,18 +37,24 @@ const useCountdown = (startTime, gameTime, socket) => {
 
       return () => clearInterval(countdownInterval);
     }
-  }, [countdown, gameTimeRemaining]);
+  }, [countdown, gameStarted, gameTimeRemaining, socket]);
 
   return { countdown, gameTimeRemaining };
 };
 
-const Countdown = ({ startTime, gameTime, socket }) => {
-  const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime, socket);
+const Countdown = ({ startTime, gameTime, socket, setGameEnd }) => {
+  const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime, socket, setGameEnd);
   const navigate = useNavigate();
   const handleNewGame = () => {
     navigate('/onboarding');
     window.location.reload();
   }; 
+
+  useEffect(() => {
+    if (gameTimeRemaining === 0) {
+      setGameEnd(true);
+    }
+  }, [gameTimeRemaining, setGameEnd]);
 
   return (
     <div className={gameStyles.timeRemaining}>
@@ -72,6 +78,7 @@ Countdown.propTypes = {
   startTime: PropTypes.number.isRequired,
   gameTime: PropTypes.number.isRequired,
   socket: PropTypes.object.isRequired,
+  setGameEnd: PropTypes.func.isRequired,
 };
 
 export default Countdown;
