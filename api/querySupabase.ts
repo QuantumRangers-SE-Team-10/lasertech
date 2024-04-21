@@ -31,8 +31,6 @@ const querySupabase = async (
             const { data, error } = await supabase.from(table).delete().eq('id', id).select()
             response = data?.at(0);
         }
-        
-        // console.log(response)
     } catch (error) {
         response = { error: error.response, data: null };
     }

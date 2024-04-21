@@ -45,7 +45,6 @@ const Game = ({ socket }) => {
             };
           })
         );
-        console.log(playerInfo)
         setPlayerInfo(playerInfo);
       }
     }

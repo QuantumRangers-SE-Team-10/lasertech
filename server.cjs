@@ -27,7 +27,6 @@ server.on('message', (message, remote) => {
 
   if (message.indexOf(':') !== -1) {
     const parts = message.toString().split(':');
-    console.log(parts)
     io.emit('hit', { sender: parts[0], recipient: parts[1]} );
     sendUDPMessage(parts[0]);
   }

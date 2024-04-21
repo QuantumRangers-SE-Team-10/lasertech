@@ -43,7 +43,7 @@ const useCountdown = (startTime, gameTime, socket) => {
 };
 
 const Countdown = ({ startTime, gameTime, socket }) => {
-  const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime);
+  const { countdown, gameTimeRemaining } = useCountdown(startTime, gameTime, socket);
   const navigate = useNavigate();
   const handleNewGame = () => {
     navigate('/onboarding');
@@ -71,6 +71,7 @@ const Countdown = ({ startTime, gameTime, socket }) => {
 Countdown.propTypes = {
   startTime: PropTypes.number.isRequired,
   gameTime: PropTypes.number.isRequired,
+  socket: PropTypes.object.isRequired,
 };
 
 export default Countdown;
