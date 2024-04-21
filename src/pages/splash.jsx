@@ -1,6 +1,6 @@
-import gameLogo from "../assets/logo.jpg";
+import gameLogo from "../../assets/logo.png";
 import splashStyling from "../css/splash.module.css";
-import particleStyling from "../css/particle.module.css";
+import ParticleAnimation from "../components/particleAnimation.jsx";
 
 export default Splash;
 
@@ -17,23 +17,7 @@ function Splash() {
   return (
     <>
       <div id="countdown" className={splashStyling.countdown}> 3 </div>
-      <div id="particle-container">
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-        <div className={particleStyling.particle}></div>
-      </div>
+      <ParticleAnimation />
       <div>
         <img src={gameLogo} className={splashStyling.logo} alt="Game logo" />
       </div>
