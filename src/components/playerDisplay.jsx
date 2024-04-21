@@ -43,7 +43,6 @@ const TeamDisplay = ({ team, players }) => {
               />
             )}
           </span>
-          
           <span className={playerDisplayStyles.playerName}>
             {player.codename}
           </span>
@@ -52,7 +51,7 @@ const TeamDisplay = ({ team, players }) => {
           </span>
         </div>
       ))}
-      < TeamScoreDisplay playerSession={players}/>
+      <TeamScoreDisplay playerSessions={players} />
     </div>
   );
 }

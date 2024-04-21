@@ -39,6 +39,12 @@
   vertical-align: middle;
 }
 
+.teamScore {
+  grid-column: span 14;
+  text-align: right;
+  vertical-align: middle;
+}
+
 .redTeam {
   grid-column: span 6;
   margin: 10px;
