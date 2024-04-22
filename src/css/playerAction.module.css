@@ -1,19 +1,38 @@
 .actionScreen {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  margin: 7px;
+  background-color: black;
+  border: blue solid 3px;
+  border-radius: 10px;
+  padding: 10px;
+  height: 350px;
+}
+
+.actions {
+  display: grid;
+  grid-column: span 3;
+  grid-template-rows: repeat(10, 1fr);
   grid-gap: 10px;
-  margin: 10px;
+  justify-content: start;
+}
+
+.winImage {
+  margin: auto;
+  grid-column: span 6;
+}
+
+.winImage img {
+  width: 100%;
 }
 
 .playerAction {
-  display: block; 
-  grid-column: span 2;
-  grid-row: auto;
+  grid-column: span 12; 
+  margin-bottom: 2px;
+  justify-content: flex-start;
+  display: flex;
 }
 
 .playerName {
-  display: block; /* Filler code */
-  grid-column: span 2;
-  grid-row:auto;
+  grid-column: span 12; 
 }
-

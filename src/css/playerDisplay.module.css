@@ -1,69 +1,62 @@
-/* stylelint-disable declaration-block-no-redundant-longhand-properties */
-
 .playerDisplay {
-    display: grid;
-    grid: repeat(2, auto) / repeat(12, 1fr);
-    gap: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    grid-column: span 12;
- 
+  display: grid;
+  grid: repeat(2, auto) / repeat(12, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.teamLabel {
-    grid-column: span 6;
-    text-align: center;
-    align-items: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 100px;
+.teamImage {
+  width: 70%;
+  padding: 30px 0 10px;
+}
+
+.player {
+  display: grid;
+  grid: repeat(2, auto) / repeat(14, 1fr);
+  margin: 5px 35px 10px 10px;
+}
+
+.baseBadge {
+  grid-column: span 1;
+}
+
+.baseBadgeImage {
+  vertical-align: middle;
+  width: 24px;
+  margin: -1px 0 1px;
+}
+
+.playerName {
+  grid-column: span 11;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.playerScore {
+  grid-column: span 2;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.teamScore {
+  grid-column: span 14;
+  text-align: right;
+  vertical-align: middle;
 }
 
 .redTeam {
-    /* display: grid; */
-    background-color: red;
-    grid-column: span 6;
-}
-
-.redPlayer {
-    display: grid;
-    grid: repeat(2, auto) / repeat(6, 1fr);
-    margin: 10px 20px;
-}
-
-.redPlayerName {
-    background-color: red;
-    grid-column: span 4;
-    text-align: left;
-}
-
-.redPlayerScore {
-    background-color: red;
-    grid-column: span 2;
-    text-align: right;
+  grid-column: span 6;
+  margin: 10px;
+  background-color: black;
+  outline: red solid 3px;
+  border-radius: 10px;
 }
 
 .greenTeam {
-    /* display: grid; */
-    background-color: green;
-    grid-column: span 6;
-}
-
-.greenPlayer {
-    display: grid;
-    grid: repeat(2, auto) / repeat(6, 1fr);
-    margin: 10px 20px;
-}
-
-.greenPlayerName {
-    background-color: green;
-    grid-column: span 4;
-    text-align: left;
-}
-
-.greenPlayerScore {
-    background-color: green;
-    grid-column: span 2;
-    text-align: right;
-
+  grid-column: span 6;
+  margin: 10px;
+  background-color: black;
+  outline: #0F0 solid 3px;
+  border-radius: 10px;
 }

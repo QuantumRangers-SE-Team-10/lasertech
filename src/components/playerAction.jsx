@@ -1,60 +1,73 @@
 import playerActionStyles from "../css/playerAction.module.css"
+import PropTypes from 'prop-types';
 
-const PlayerAction = () => {
+const PlayerActions = ({ sender, senderColor, recipient, recipientColor }) => {
+  return (
+    <div className={playerActionStyles.playerAction}>
+      <span style={{ color: senderColor }}> {sender}</span>&nbsp;hit&nbsp;
+      {recipient === 'the base' ? (
+        <span style={{ color: recipientColor }}>{recipient}</span>
+      ) : (
+        <span style={{ color: recipientColor }}>{recipient}</span>
+      )}
+    </div>
+  );
+};
 
-    const [game, setGame] = useState({});
-    const [players, setPlayers] = useState([]);
+PlayerActions.propTypes = {
+  sender: PropTypes.string.isRequired,
+  senderColor: PropTypes.string.isRequired,
+  recipient: PropTypes.string.isRequired,
+  recipientColor: PropTypes.string.isRequired,
+};
 
-    const fetchGame = async (gameId) => {
-        try {
-            const response = await fetch(`/api/games/${gameId}`);
-            if (!response.ok) {
-            throw new Error(`Error fetching game information`);
-            }
-            const data = await response.json();
-            setGame(data.game);
-        } catch (error) {
-            console.error(error);
-        }
-        };
+const PlayerAction = ({ actions, teamWin, gameEnd }) => {
+  const MAX_ACTIONS = 10;
+  const reversedActions = [...actions].reverse();
+  const limitedActions = reversedActions.slice(0, MAX_ACTIONS);
 
-        const fetchPlayers = async (gameId) => {
-            try {
-                const response = await fetch(`/api/games/${gameId}/players`);
-                if (!response.ok) {
-                    throw new Error(`Error fetching player information`);
-                }
-                const data = await response.json();
-                const playersData = data.players.map(player => ({
-                    codename: player.codename,
-                    action: player.action
-                }));
-                setPlayers(playersData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-    
-        useEffect(() => {
-            let [searchParams] = useSearchParams();
-            const gameId = searchParams.get("gameId");
-            fetchGame(gameId);
-            fetchPlayers(gameId);
-        }, []);
-    
-        return (
-            <div className={playerActionStyles.actionScreen}>
-                {players.map(player => (
-                    <div key={player.id} className={playerActionStyles.playerAction}>
-                        <div className={playerActionStyles.playerName}>
-                            <h2>{player.name}</h2>
-                        </div>
-                        <div className={playerActionStyles.playerAction}>
-                            <h2>{player.action}</h2>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        );
-    }
-    export default PlayerAction;
+  let gameEndImage;
+  if (teamWin === 'red') {
+    gameEndImage = 'redwin';
+  } else if (teamWin === 'green') {
+    gameEndImage = 'greenwin';
+  } else {
+    gameEndImage = 'draw';
+  }
+
+  return (
+    <div className={playerActionStyles.actionScreen}>
+      <div className={playerActionStyles.actions}>
+        {limitedActions.map((action, index) => (
+          <PlayerActions
+            key={index}
+            sender={action.sender}
+            senderColor={action.senderColor}
+            recipient={action.recipient}
+            recipientColor={action.recipientColor}
+          />
+        ))}
+      </div>
+      {teamWin && gameEnd ? (
+        <div className={playerActionStyles.winImage}>
+          <img src={`src/assets/images/${gameEndImage}.png`} alt='Draw!'/>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+PlayerAction.propTypes = {
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      sender: PropTypes.string.isRequired,
+      senderColor: PropTypes.string.isRequired,
+      recipient: PropTypes.string.isRequired,
+      recipientColor: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  teamWin: PropTypes.string.isRequired,
+  gameEnd: PropTypes.bool.isRequired,
+};
+
+export default PlayerAction;

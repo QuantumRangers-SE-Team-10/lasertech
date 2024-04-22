@@ -1,0 +1,24 @@
+.teamScoreBox{
+    box-sizing: content-box;
+    display: flex;
+    justify-content: right;
+    margin: 5px 35px 10px 10px;
+}
+
+.glow {
+  color: gold;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: none;
+  }
+
+  to {
+    /* text-shadow: 0 0 30px #fff, 0 0 50px gold, 0 0 60px gold; Increased values */
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #ecc601, 0 0 30px #ecc601, 0 0 40px #ecc601, 0 0 55px #ecc601, 0 0 75px #ecc601;
+  }
+}

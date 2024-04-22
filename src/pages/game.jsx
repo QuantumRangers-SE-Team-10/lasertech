@@ -1,46 +1,140 @@
 import { useSearchParams } from "react-router-dom";
-import { useState, useMemo } from "react";
-
-import gameStyles from "../css/game.module.css";
+import { useState, useMemo, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 import PlayerDisplay from "../components/playerDisplay.jsx";
-// import PlayerAction from "../src/components/playerAction.jsx";
+import PlayerAction from "../components/playerAction.jsx";
 import Countdown from "../components/countdown.jsx";
+import GameMusic from "../components/gameMusic.jsx";
+
+import gameStyles from "../css/game.module.css";
+import gameGFX from "../assets/images/game.png";
 
 import { getGame } from "../../api/game";
+import { getPlayer, getAllPlayers } from "../../api/player";
+import { getAllPlayerSessions } from "../../api/playerSession";
 
-const Game = () => {
-    const [game, setGame] = useState({});
-    const [searchParams] = useSearchParams();
-    useMemo(async () => {
-      const gameId = searchParams.get('id') || '';
-      const g = await getGame(gameId);
-      setGame(g);
-    }, [searchParams]);
+const Game = ({ socket }) => {
+  const [game, setGame] = useState({});
+  const [searchParams] = useSearchParams();
+  const [countdown, setCountdown] = useState();
+  const [gameMusic, setGameMusic] = useState();
+  useMemo(async () => {
+    const gameId = searchParams.get('id') || '';
+    const g = await getGame(gameId);
+    setGame(g);
+  }, [searchParams]);
 
-    if (game.error) {
-      return (
-        <div className={gameStyles.window}>
-          <div className={gameStyles.windowHeader}>
-            <h1>Game Not Found</h1>
-          </div>
-        </div>
-      )
+  const [players, setPlayers] = useState();
+  useMemo(async () => {
+    const p = await getAllPlayers();
+    setPlayers(p);
+  }, []);
+
+  const [playerInfo, setPlayerInfo] = useState([]);
+  useEffect(() => {
+    const fetchData = async (game) => {
+      if (game.id != null) {
+        const ps = (await getAllPlayerSessions())
+          .filter((playerSession) => playerSession.gameId === game.id);
+        const playerInfo = await Promise.all(
+          ps.map(async (player) => {
+            const playerInfo = await getPlayer(player.playerId);
+            return {
+              ...player,
+              codename: playerInfo.codename,
+            };
+          })
+        );
+        setPlayerInfo(playerInfo);
+      }
     }
-    
-    return (
-        <div className={gameStyles.window}>
-            <div className={gameStyles.windowHeader}>
-                <h1>Game</h1>
-            </div>
-            {!!game.error || <PlayerDisplay game={game} />}
-            {/* <PlayerAction /> */}
-            <Countdown startTime={30} gameTime={360} />
-        </div>
 
-    );
+    fetchData(game);
+  }, [game]);
+
+  const [playerActions, setPlayerActions] = useState([]);
+
+  const [gameEnd, setGameEnd] = useState(false);
+  const [teamWin, setTeamWin] = useState('');
+
+  useEffect(() => {
+    if (gameEnd) return;
+    socket.on('hit', (data) => {
+      const sender = playerInfo.find((pS) => pS.equipmentId === Number(data.sender));
+      let recipient
+      if (data.recipient === '43' || data.recipient === '53') {
+        recipient = { codename: 'the base', team: 'white' }
+        sender.playerScore += 50;
+        sender.hasHitBase = true;
+      } else {
+        recipient = playerInfo.find((pS) => pS.equipmentId === Number(data.recipient));
+        sender.playerScore += 10;
+      }
+      const action = {
+        sender: players.find((p) => p.id === sender.playerId).codename,
+        senderColor: sender.team.toLowerCase() === 'red' ? 'red' : '#0f0',
+        recipient: recipient.playerId ? players.find((p) => p.id === recipient.playerId).codename : recipient.codename,
+        recipientColor: sender.team.toLowerCase() === 'red' ? '#0f0' : 'red',
+      };
+      setPlayerActions((prevActions) => [...prevActions, action]);
+    });
+
+    return () => {
+      socket.off('hit');
+    };
+  }, [players, playerInfo, game, gameEnd, socket]);
+
+  const buttonHandler = () => {
+      let button = document.getElementById("startbutton");
+      button.parentNode.removeChild(button);
+      addCountdown();
+      addGameMusic();
+      let window = document.getElementById("window");
+      window.style = "{{display: 'block'}}";
+    }
+
+    function addCountdown() {
+      setCountdown(<Countdown startTime={30} gameTime={360} socket={socket} setGameEnd={setGameEnd} />);
+    }
+
+    function addGameMusic() {
+      setGameMusic(<GameMusic />);
+    }
+
+  if (game.error) {
+    return (
+      <div className={gameStyles.window}>
+        <div className={gameStyles.windowHeader}>
+          <h1>Game Not Found</h1>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <button
+        id = "startbutton"
+        className = {gameStyles.startButton}
+        onClick = {buttonHandler}
+      >
+        Click To Start Countdown
+      </button>
+      <div className={gameStyles.window} id="window" style={{display: "none"}}>
+        <img className={gameStyles.gameImage} src={gameGFX} alt='Game'/>
+        {!!game.error || <PlayerDisplay playerInfo={playerInfo} setTeamWin={setTeamWin} />}
+        {!!game.error || <PlayerAction actions={playerActions} teamWin={teamWin} gameEnd={gameEnd} />}
+        {countdown}
+        {gameMusic}
+      </div>
+    </>
+  );
 };
 
+Game.propTypes = {
+  socket: PropTypes.object.isRequired,
+};
 
 export default Game;
 
